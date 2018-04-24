@@ -1,0 +1,44 @@
+{% extends "webpage/base.html" %}
+{% load staticfiles %}
+{% load webpage_extras %}
+{% block content %}
+    <div class="container text-center">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <img src="{% static 'webpage/img/tlmf_books.jpg' %}" alt="First" width="1200" height="600" title="by Michael Span" />
+                    <div class="carousel-caption">
+                        <p>Old books in the <a href="http://www.tiroler-landesmuseen.at/page.cfm?vpath=haeuser/ferdinandeum/haus/bibliothek">TLMF</a>. Foto by <a href="https://www.uibk.ac.at/geschichte-ethnologie/mitarbeiterinnen/projekt/span-michael/">Michael Span</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="{% static 'webpage/img/tla-aktenserie-lg-mieders-fasz-7-pos-5-004.jpg' %}" alt="a nice feature picture" width="1200" height="600" title="by Michael Span" />
+                    <div class="carousel-caption">
+                        <p>Inventory from the <a href="https://www.tirol.gv.at/kunst-kultur/landesarchiv/">Tiroler Landesarchiv</a>
+                            <br/>
+                            <small>© Tiroler Landearchiv, Landgericht Mieders, Aktenserie Fasz. 7, Pos. 5 (Inventare 1754), Nr. 29 (Inventar des Urban Sachser), Blatt 3v-4r.</small>
+                        </p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="{% static 'webpage/img/tlmf_cochem.jpg' %}" alt="Cochem, Leben Christi (TLMF)" width="1200" height="600" title="by Michael Span"/>
+                    <div class="carousel-caption">
+                        <p>Cochem, Leben Christi (<a href="http://www.tiroler-landesmuseen.at/page.cfm?vpath=haeuser/ferdinandeum/haus/bibliothek">TLMF</a>). Foto by <a href="https://www.uibk.ac.at/geschichte-ethnologie/mitarbeiterinnen/projekt/span-michael/">Michael Span</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"></a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"></a>
+        </div>
+        <h1 style="text-align:center">{% projects_metadata 'title' %}</h1>
+        <h3>{% projects_metadata 'subtitle' %}</h3>
+        <p>{% projects_metadata 'description' %}</p>
+    </div>
+{% endblock %}

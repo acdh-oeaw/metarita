@@ -1,0 +1,371 @@
+{% load staticfiles %}
+{% load webpage_extras %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <title>
+          {% block title %}
+            {% projects_metadata 'title' %}
+        {% endblock %}
+    </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      {% block metaDescription %}
+          <meta name="description" content="{% projects_metadata 'description' %}">
+          <meta name="author" content="{% projects_metadata 'author' %}">
+          <meta name="author" content="Matthias Schlögl">
+      {% endblock %}
+      <!-- favicons -->
+          <link rel="apple-touch-icon" sizes="180x180" href="{% static 'webpage/img/favicon/apple-touch-icon.png' %}"/>
+          <link rel="icon" type="image/png" sizes="32x32" href="{% static 'webpage/img/favicon/favicon-32x32.png' %}"/>
+          <link rel="icon" type="image/png" sizes="16x16" href="{% static 'webpage/img/favicon/favicon-16x16.png' %}"/>
+          <link rel="manifest" href="{% static 'webpage/img/favicon/manifest.json' %}"/>
+          <link rel="mask-icon" href="{% static 'webpage/img/favicon/safari-pinned-tab.svg' %}" color="#00aba9"/>
+          <meta name="theme-color" content="#ffffff"/>
+      <!--favicons end -->
+
+      <!-- Bootstrap-->
+      <link rel="stylesheet" href="{% static 'webpage/libraries/bower_components/bootstrap/dist/css/bootstrap.min.css' %}"/>
+      <!-- Bootstrap Themes. see https://bootswatch.com/
+        <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css">
+      -->
+      <!--scroll to top CSS -->
+      <link rel="stylesheet" href="{% static 'webpage/apis.css' %}" />
+      <link rel="stylesheet" href="{% static 'webpage/libraries/scroll-to-top/css/ap-scroll-top.min.css'%}" />
+      <!--leflet CSS -->
+      <link rel="stylesheet" href="{% static 'webpage/libraries/bower_components/leaflet/dist/leaflet.css' %}" />
+      <link rel="stylesheet" href="{% static 'webpage/libraries/bower_components/components-font-awesome/css/font-awesome.min.css' %}">
+
+      <!-- jQuery-->
+      <script type="text/javascript" src="{% static 'webpage/libraries/bower_components/jquery/dist/jquery.min.js' %}"></script>
+      <!-- Bootstrap -->
+      <script type="text/javascript" src="{% static 'webpage/libraries/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+      <!-- angular.js
+      <script type="text/javascript" src="{% static 'webpage/libraries/angularjs/angular.min.js' %}"></script>
+      -->
+      <script type="text/javascript" src="{% static 'webpage/libraries/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+      <link rel="stylesheet" href="{% static 'webpage/libraries/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}" type="text/css"/>
+      <script type="text/javascript" src="{% static 'webpage/libraries/bower_components/bootstrap-multiselect/dist/js/bootstrap-multiselect.js' %}"></script>
+      <link rel="stylesheet" href="{% static 'webpage/libraries/bower_components/bootstrap-multiselect/dist/css/bootstrap-multiselect.css' %}" type="text/css"/>
+      <!--scroll to top -->
+      <script src="{% static 'webpage/libraries/scroll-to-top/js/ap-scroll-top.min.js'%}"></script>
+      <!--leaflet js -->
+      <script src="{% static 'webpage/libraries/bower_components/leaflet/dist/leaflet.js' %}"></script>
+      <script src="{% static 'webpage/autocomplete_js_tooltips.js' %}"></script>
+      <link rel="stylesheet" href="{% static 'webpage/libraries/bower_components/leaflet.markercluster/dist/MarkerCluster.css'%}" />
+      <link rel="stylesheet" href="{% static 'webpage/libraries/bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css'%}" />
+      <!--
+      <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />-->
+      <script src="{% static 'webpage/libraries/bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js' %}"></script>
+      <script type="text/javascript" src="{% static 'webpage/libraries/bower_components/tooltipster/dist/js/tooltipster.bundle.min.js' %}"></script>
+      <link rel="stylesheet" type="text/css" href="{% static 'webpage/libraries/bower_components/tooltipster/dist/css/tooltipster.bundle.min.css' %}" />
+      <link rel="stylesheet" type="text/css" href="{% static 'webpage/libraries/bower_components/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css' %}" />
+      <script type="text/javascript" src="{% static 'webpage/apis_highlighter.js' %}"></script>
+      <link href="/static/autocomplete_light/vendor/select2/dist/css/select2.css" type="text/css" media="all" rel="stylesheet" />
+        <link href="/static/autocomplete_light/select2.css" type="text/css" media="all" rel="stylesheet" />
+        <script type="text/javascript" src="/static/autocomplete_light/jquery.init.js"></script>
+        <script type="text/javascript" src="/static/autocomplete_light/autocomplete.init.js"></script>
+        <script type="text/javascript" src="/static/autocomplete_light/vendor/select2/dist/js/select2.full.js"></script>
+        <script type="text/javascript" src="/static/autocomplete_light/select2.js"></script>
+
+        <!-- Matomo -->
+          <script type="text/javascript">
+            var _paq = _paq || [];
+            /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+              var u="{% projects_metadata 'matomo_url' %}";
+              _paq.push(['setTrackerUrl', u+'piwik.php']);
+              _paq.push(['setSiteId', '{% projects_metadata "matomo_id" %}']);
+              var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+              g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+            })();
+          </script>
+        <!-- End Matomo Code -->
+
+      {% block scriptHeader %}
+      {% endblock %}
+  </head>
+  <body>
+    <!-- Piwik -->
+    <noscript>
+      <p>
+        <img src="//clarin.oeaw.ac.at/piwik/piwik.php?idsite=11" style="border:0;" alt="" />
+      </p>
+    </noscript>
+    <!-- End Piwik Code -->
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation!</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="nav-item" ><a href="{% url 'webpage:start' %}">Home</a></li>
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Entities
+                    <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      {% for ent in entities_list %}
+                    <li>
+                        <a href="{% url 'entities:generic_entities_list' ent %}">{{ent|title}}</a>
+                    </li>
+                      {% endfor %}
+
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Visualizations
+                  <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                        <a href="{% url 'entities:birth_death_map' %}">Person Place map</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'entities:generic_network_viz' %}">Network</a>
+                    </li>
+                    {% if 'annotator agreement' in additional_settings %}
+                    <li>
+                        <a href="{% url 'highlighter:agreement' %}">Inter-Annotator Agreement</a>
+                    </li>
+                    {% endif %}
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About
+                    <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li>
+                          <a href="{% url 'webpage:staticpage' template='about' %}">About project</a>
+                      </li>
+                      <li>
+                          <a href="{% url 'webpage:staticpage' template='imprint' %}">Impressum / Imprint</a>
+                      </li>
+                  </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ request.user.username }}<span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                        <a href="{% url 'webpage:user_login' %}">Log-In</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'webpage:user_logout' %}">Log-Out</a>
+                    </li>
+                    <li>
+                      <div class="form-check" style="padding-left: 20px">
+                        <input type="checkbox" class="form-check-input" id="ckeck_edit_views" {% if  request.session.edit_views %}checked{% endif %}>
+                        <label class="form-check-label" for="ckeck_edit_views">Use edit views</label>
+                      </div>
+                    </li>
+                    
+                  </ul>
+              </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="content" class="container">
+    <div class="alert alert-warning">
+    <strong>Warning!</strong> Work in Progress. But entered data will be preserved.
+    </div>
+      {% block content %}
+      {% endblock %}
+    </div>
+    <footer>
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-6">
+                    <a href="https://www.oeaw.ac.at/acdh/" class="navlink" target="_blank">
+                        <img src="{% static 'webpage/img/acdh_logo_black_03.png' %}" id="acdh-logo" alt="ACDH" title="Austrian Centre for Digital Humanities"/>
+                    </a>
+                </div>
+                <div class="col-sm-6">
+                    <a href="{% projects_metadata 'github' %}" class="navlink" target="_blank">
+                        <img src="{% static 'webpage/img/GitHub-Mark-64px.png' %}" id="github-logo" alt="{{ metadata.github }}" title="Github source code"/>
+                    </a>
+                </div>
+            </div>
+            <div style="text-align:right">
+                <small>Version: {% projects_metadata 'version' %}</small>
+            </div>
+        </div>
+    </footer>
+    {% block scripts %}
+
+    <!-- scroll-up-bottom -->
+    <script type="text/javascript">
+            // Setup plugin with default settings
+            $(document).ready(function() {
+                $.apScrollTop({
+                    'onInit': function(evt) {
+                        console.log('apScrollTop: init');
+                    }
+                });
+                $('#ckeck_edit_views').on('change', function(){
+                  var edit_views = $('#ckeck_edit_views').prop('checked');
+                  $.ajax({
+                    url: "{% url 'webpage:set_user_settings' %}",
+                    data: {'edit_views': edit_views},
+                    success: function(data){
+                      if (data.edit_views) {
+                        $('#check_edit_views').prop('checked', true)
+                      } else {
+                        $('#check_edit_views').prop('checked', false)
+                      }
+                    }
+                  })
+                });
+            });
+    </script>
+    <script type="text/javascript">
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+    </script>
+    <script type="text/javascript">
+      function unbind_ajax_forms(){
+      $(".form.ajax_form").submit(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var formData = $(this).serialize();
+            //var button_text = $(this).find(':button').text();
+
+          $.ajax({
+          type: 'POST',
+          url: $(this).attr('action'),
+          data: formData,
+              beforeSend: function(request) {
+              var csrftoken = getCookie('csrftoken');
+    request.setRequestHeader("X-CSRFToken", csrftoken);
+  },
+          //data:formData,
+            })
+          .done(function(response) {
+              window[response.call_function](response)}
+      )})}
+</script>
+        <script type="text/javascript">
+    //script that converts the multi select element of the annotation project menu
+    $(document).ready(function() {
+        $('select.selectmultiple').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true
+        });
+        initiate_compare_tooltip();
+    })
+    </script>
+        <script type="application/javascript">
+        $('body').on('mouseenter', '.apis-autocomplete-span:not(.tooltipstered)', function() {
+                    $(this).tooltipster({
+                      theme: 'tooltipster-light',
+                      side: 'left',
+                      contentAsHTML: true,
+
+                      functionBefore: function(instance, helper) {
+                        $('#container2').remove();
+                        instance.content('<div class="autocomplete-vis-container" id="container2" style="height: 200px; width: 200px"></div>');
+                      },
+                      functionReady: function(instance, helper){
+                        var func = 'autocomplete_vis_'+$(helper.origin).data('vis-tooltip');
+                        var res = window[func]($(helper.origin));
+                        console.log(res);
+                      },
+                    })
+                    .tooltipster('reposition')
+                    .tooltipster('open');
+                });
+
+
+        function initiate_compare_tooltip() {
+          //TODO: correctly detach the tooltips before reinitializing them
+        $('.compare_tooltip').tooltipster({
+    content: 'Loading...',
+            contentAsHTML: true,
+    interactive: true,
+    theme: 'tooltipster-light',
+            updateAnimation: null,
+            zIndex: 999,
+    functionBefore: function(instance, helper) {
+        var $origin = $(helper.origin);
+        dataOptions = $origin.attr('data-tooltip');
+        if(dataOptions) {
+
+            dataOptions = JSON.parse(dataOptions);
+            console.log(dataOptions);
+        } else {
+            console.log('didnt read out')
+        }
+        if (typeof $.ApisRev == 'undefined') {
+            $.ApisRev = {}; }
+        $.ApisRev.url = '/entities/compare/'+dataOptions['app']+'/'+dataOptions['kind']+'/'+dataOptions['pk']
+        if ($origin.data('loaded') !== true) {
+            $.get($.ApisRev.url, function(data) {
+                instance.content(data);
+                unbind_compare_forms();
+                $origin.data('loaded', true);
+            });
+        }
+    },
+    functionReady: function (instance, helper) {
+        $.ApisRev.instance = instance;
+        unbind_compare_forms();
+    }
+});};
+        </script>
+        <script type="text/javascript">
+      function unbind_compare_forms(){
+      $("#change-history").parents('form').submit(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var formData = $(this).serialize();
+          if ($.ApisRev.url == 'undefined'){
+              var url = '/'
+          } else {
+              var url = $.ApisRev.url
+          };
+          $.ajax({
+          type: 'GET',
+          url: url,
+          data: formData,
+          //data:formData,
+            })
+          .done(function(response) {
+              $.ApisRev.instance.content(response);
+              unbind_compare_forms();
+          }
+      )})}
+</script>
+    {% endblock scripts%}
+  </body>
+</html>

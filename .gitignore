@@ -1,0 +1,14 @@
+*.ipynb
+*.pyc
+*.idea
+
+*.sqlite3
+*.mp4
+
+data/
+static_dir/
+
+downloads/
+
+bower_components/
+/db.sqlite3-journal
