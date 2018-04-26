@@ -95,19 +95,19 @@ if 'apis_highlighter' in settings.INSTALLED_APPS:
     router.register(r'HLAnnotation', HighlighterAnnotationViewSet)
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'labels/', include('labels.urls', namespace='labels')),
-    url(r'entities/', include('entities.urls', namespace='entities')),
-    url(r'relations/', include('relations.urls', namespace='relations')),
-    url(r'vocabularies/', include('vocabularies.urls', namespace='vocabularies')),
-    url(r'^api/', include(router.urls)),    # routers do not support namespaces out of the box
-    url(r'^api2/', include('entities.api_urls', namespace="api2")),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(
-        r'^docs/(?P<path>.*)',
-        login_required(serve), {'document_root': 'apis-core/docs/_build/html'}, 'docs'
-    ),
-    url(r'^', include('webpage.urls', namespace='webpage')),
+    # url(r'^admin/', admin.site.urls),
+    # url(r'labels/', include('labels.urls', namespace='labels')),
+    # url(r'entities/', include('entities.urls', namespace='entities')),
+    # url(r'relations/', include('relations.urls', namespace='relations')),
+    # url(r'vocabularies/', include('vocabularies.urls', namespace='vocabularies')),
+    # url(r'^api/', include(router.urls)),    # routers do not support namespaces out of the box
+    # url(r'^api2/', include('entities.api_urls', namespace="api2")),
+    # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # url(
+    #     r'^docs/(?P<path>.*)',
+    #     login_required(serve), {'document_root': 'apis-core/docs/_build/html'}, 'docs'
+    # ),
+    # url(r'^', include('webpage.urls', namespace='webpage')),
 ]
 
 if 'apis_highlighter' in settings.INSTALLED_APPS:

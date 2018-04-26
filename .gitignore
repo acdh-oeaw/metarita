@@ -12,3 +12,4 @@ downloads/
 
 bower_components/
 /db.sqlite3-journal
+/apis/settings/server.py
