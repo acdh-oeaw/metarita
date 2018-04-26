@@ -8,24 +8,23 @@ from entities.api_views import (
 )
 from django.views.static import serve
 from django.contrib.auth.decorators import login_required
-#from rest_framework_swagger.views import get_swagger_view
-#from entities.views2 import GenericEntitiesCreateStanbolView
 from metainfo.api_views import (
     CollectionViewSet, TextViewSet, SourceSerializerViewSet,
     UriSerializerViewSet, TempEntityClassViewSet)
 from relations.api_views import (
-    InstitutionInstitutionViewSet, InstitutionPlaceViewSet, InstitutionEventViewSet, InstitutionWorkViewSet,
-    PersonInstitutionViewSet, PersonPlaceViewSet, PersonPersonViewSet, PersonEventViewSet, PersonWorkViewSet,
-    PlaceWorkViewSet, PlaceEventViewSet, EventWorkViewSet, EventEventViewSet, WorkWorkViewSet,
-    PlacePlaceViewSet)
+    InstitutionInstitutionViewSet, InstitutionPlaceViewSet, InstitutionEventViewSet,
+    InstitutionWorkViewSet, PersonInstitutionViewSet, PersonPlaceViewSet, PersonPersonViewSet,
+    PersonEventViewSet, PersonWorkViewSet, PlaceWorkViewSet, PlaceEventViewSet, EventWorkViewSet,
+    EventEventViewSet, WorkWorkViewSet, PlacePlaceViewSet)
 from vocabularies.api_views import (
     UserViewSet, VocabNamesViewSet, TextTypeViewSet, CollectionTypeViewSet, VocabsBaseClassViewSet,
-    InstitutionTypeViewSet, ProfessionTypeViewSet, PlaceTypeViewSet, EventTypeViewSet, WorkTypeViewSet,
-    PersonInstitutionRelationViewSet, PersonPlaceRelationViewSet, PersonEventRelationViewSet, PersonWorkRelationViewSet,
-    PersonPersonRelationViewSet, InstitutionInstitutionRelationViewSet, InstitutionPlaceRelationViewSet,
+    InstitutionTypeViewSet, ProfessionTypeViewSet, PlaceTypeViewSet, EventTypeViewSet,
+    WorkTypeViewSet, PersonInstitutionRelationViewSet, PersonPlaceRelationViewSet,
+    PersonEventRelationViewSet, PersonWorkRelationViewSet, PersonPersonRelationViewSet,
+    InstitutionInstitutionRelationViewSet, InstitutionPlaceRelationViewSet,
     InstitutionEventRelationViewSet, InstitutionWorkRelationViewSet, PlaceEventRelationViewSet,
-    PlaceWorkRelationViewSet, EventWorkRelationViewSet, EventEventRelationViewSet, WorkWorkRelationViewSet,
-    PlacePlaceRelationViewSet)
+    PlaceWorkRelationViewSet, EventWorkRelationViewSet, EventEventRelationViewSet,
+    WorkWorkRelationViewSet, PlacePlaceRelationViewSet)
 
 
 router = routers.DefaultRouter()
@@ -85,7 +84,8 @@ router.register(r'VocabNames', VocabNamesViewSet)
 if 'apis_highlighter' in settings.INSTALLED_APPS:
     from apis_highlighter.api_views import (
         HighlighterProjectViewSet, HighlighterTextHighViewSet, HighlighterMenuEntryViewSet,
-        HighlighterHighlightTextViewSet, HighlighterVocabularyAPIViewSet, HighlighterAnnotationViewSet
+        HighlighterHighlightTextViewSet, HighlighterVocabularyAPIViewSet,
+        HighlighterAnnotationViewSet
     )
     router.register(r'HLProjects', HighlighterProjectViewSet)
     router.register(r'HLTextHigh', HighlighterTextHighViewSet)
