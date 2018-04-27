@@ -187,9 +187,9 @@ APIS_ALTERNATE_NAMES = [
 ]
 
 APIS_ENTITIES = {
-    'Place': {'search': ['name'],
+    'Place': {'search': ['name', 'written_name'],
               'list_filters': [('name', {'method': 'wildcard_filter', 'label': 'Name'})]},
-    'Person': {'search': ['name', 'first_name'],
+    'Person': {'search': ['name', 'written_name', 'first_name'],
                'form_order': ['first_name', 'name'],
                'table_fields': ['name', 'first_name', 'start_date', 'end_date', 'profession'],
                'list_filters': [('name', {'method': 'name_label_filter', 'label': 'Name complete'}),
@@ -200,10 +200,10 @@ APIS_ENTITIES = {
                                 ('profession', {'label': 'Profession'}),
                                 ('collection', {'label': 'Collection'})]
                },
-    'Institution': {'search': ['name'],
+    'Institution': {'search': ['name', 'written_name'],
                     'list_filters': [('name', {'method': 'wildcard_filter', 'label': 'Name'})]},
-    'Work': {'search': ['name'],
+    'Work': {'search': ['name', 'written_name'],
              'list_filters': [('name', {'method': 'wildcard_filter', 'label': 'Name'})]},
-    'Event': {'search': ['name'],
+    'Event': {'search': ['name', 'written_name'],
               'list_filters': [('name', {'method': 'wildcard_filter', 'label': 'Name'})]},
 }
