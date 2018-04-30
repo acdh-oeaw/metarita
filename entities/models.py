@@ -163,7 +163,7 @@ class Work(TempEntityClass):
         verbose_name="vor Abzug Passiva",
         help_text="Kombination aus 'vor Abzug Passiva' Feldern"
     )
-    barschaft = models.TextField(
+    buecher = models.TextField(
         blank=True, null=True,
         verbose_name="Buch/Bücher",
         help_text="Buch/Bücher"

@@ -23,5 +23,9 @@ def first_cell_items(df, key, delimiter='\n'):
     return cell_items
 
 
-def get_dfs(file):
-    return [pd.read_excel(file, x) for x in get_filtered_sheets(file)['filtered']]
+def get_dfs(file, filterstring='V'):
+    return [
+        pd.read_excel(file, x).fillna('FALSE') for x in get_filtered_sheets(
+            file, filterstring
+            )['filtered']
+        ]

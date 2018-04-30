@@ -202,8 +202,13 @@ APIS_ENTITIES = {
                },
     'Institution': {'search': ['name', 'written_name'],
                     'list_filters': [('name', {'method': 'wildcard_filter', 'label': 'Name'})]},
-    'Work': {'search': ['name', 'written_name'],
-             'list_filters': [('name', {'method': 'wildcard_filter', 'label': 'Name'})]},
+    'Work': {
+        'search': ['name', 'written_name'],
+        'table_fields': ['name', 'kind'],
+        'list_filters': [
+                ('name', {'method': 'wildcard_filter', 'label': 'Name'}),
+                ('kind', {'label': 'Dokument Typ'})
+                ]},
     'Event': {'search': ['name', 'written_name'],
               'list_filters': [('name', {'method': 'wildcard_filter', 'label': 'Name'})]},
 }
