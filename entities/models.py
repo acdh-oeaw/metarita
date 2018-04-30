@@ -139,8 +139,35 @@ class Event(TempEntityClass):
 
 @reversion.register(follow=['tempentityclass_ptr'])
 class Work(TempEntityClass):
-    kind = models.ForeignKey(WorkType, blank=True, null=True,
-                             on_delete=models.SET_NULL)
+    kind = models.ForeignKey(
+        WorkType, blank=True, null=True,
+        on_delete=models.SET_NULL
+    )
+    summe_inventar = models.CharField(
+        blank=True, null=True, max_length=250,
+        verbose_name="Summe Inventar",
+        help_text="Summe Inventar"
+    )
+    barschaft = models.CharField(
+        blank=True, null=True, max_length=250,
+        verbose_name="Barschaft (teilweise eigene Berechnung)",
+        help_text="Barschaft (teilweise eigene Berechnung)"
+    )
+    invenatar_summe_norm = models.FloatField(
+        blank=True, null=True,
+        verbose_name="Inventarsumme",
+        help_text="Kombination aus 'Gulden- und Kreuzer Inventarsumme' Feldern"
+    )
+    vor_passiva = models.FloatField(
+        blank=True, null=True,
+        verbose_name="vor Abzug Passiva",
+        help_text="Kombination aus 'vor Abzug Passiva' Feldern"
+    )
+    barschaft = models.TextField(
+        blank=True, null=True,
+        verbose_name="Buch/Bücher",
+        help_text="Buch/Bücher"
+    )
 
     def get_next(self):
         next = Work.objects.filter(id__gt=self.id)
