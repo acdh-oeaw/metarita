@@ -3,4 +3,4 @@ from reversion_compare.admin import CompareVersionAdmin
 
 from .models import Person, Place, Institution, Event, Work
 
-
+admin.site.register(Work)
