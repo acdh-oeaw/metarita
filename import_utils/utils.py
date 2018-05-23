@@ -1,8 +1,32 @@
 import re
 import pandas as pd
+from dateutil import parser
 from entities.models import *
 from relations.models import *
 from vocabularies.models import *
+
+
+def clean_date_cells(date_string_list):
+    cleaned = [
+        x.replace('[', '').replace(']', '').replace('(', '').replace(')', '').split(' ')[0]
+        for x in date_string_list
+    ]
+    return cleaned
+
+
+def get_start_end(date_string_list, as_dates=True):
+    cleaned = clean_date_cells(date_string_list)
+    try:
+        if as_dates:
+            first_last = (
+                parser.parse(cleaned[0]).date().strftime("%d.%m.%Y"),
+                parser.parse(cleaned[-1]).date().strftime("%d.%m.%Y")
+            )
+        else:
+            first_last = cleaned[0], cleaned[-1]
+    except ValueError:
+        first_last = None
+    return first_last
 
 
 def clean_place_string(place_string):
@@ -46,7 +70,7 @@ def get_filtered_sheets(file, filterstring='V'):
     """ returns a list of sheet names containing the filterstring value """
 
     sheets = pd.read_excel(file, None).keys()
-    filtered = [x for x in sheets if x.startswith(filterstring)]
+    filtered = [x for x in sheets if filterstring in x]
     return {'sheets': sheets, 'filtered': filtered}
 
 

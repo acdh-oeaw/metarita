@@ -14,3 +14,4 @@ bower_components/
 /apis/settings/server.py
 /relations/migrations/0001_initial.py
 .ipynb_checkpoints
+/Untitled.ipynb

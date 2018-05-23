@@ -191,7 +191,7 @@ APIS_ENTITIES = {
               'list_filters': [('name', {'method': 'wildcard_filter', 'label': 'Name'})]},
     'Person': {'search': ['name', 'written_name', 'first_name'],
                'form_order': ['first_name', 'name'],
-               'table_fields': ['name', 'first_name', 'start_date', 'end_date', 'profession'],
+               'table_fields': ['name', 'first_name', 'profession'],
                'list_filters': [('name', {'method': 'name_label_filter', 'label': 'Name complete'}),
                                 ('first_name', {'method': 'wildcard_filter', 'label': 'Firstname'}),
                                 ('gender', {'label': 'Gender'}),
@@ -204,10 +204,17 @@ APIS_ENTITIES = {
                     'list_filters': [('name', {'method': 'wildcard_filter', 'label': 'Name'})]},
     'Work': {
         'search': ['name', 'written_name'],
-        'table_fields': ['name', 'kind'],
+        'table_fields': [
+            'name',
+            'kind',
+            'invenatar_summe_norm',
+            'vor_passiva',
+            'buecher'
+            ],
         'list_filters': [
                 ('name', {'method': 'wildcard_filter', 'label': 'Name'}),
-                ('kind', {'label': 'Dokument Typ'})
+                ('kind', {'label': 'Dokument Typ'}),
+                ('buecher', {'method': 'wildcard_filter', 'label': 'Bücher'}),
                 ]},
     'Event': {'search': ['name', 'written_name'],
               'list_filters': [('name', {'method': 'wildcard_filter', 'label': 'Name'})]},

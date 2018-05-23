@@ -7,14 +7,16 @@ import re
 import unicodedata
 
 
-
 @reversion.register()
 class VocabNames(models.Model):
-    """List of Vocabulary names to allow the easy retrieval of Vovcabulary names and classes from the VocabsBaseClass"""
+
+    """List of Vocabulary names to allow the easy retrieval of Vovcabulary names
+    and classes from the VocabsBaseClass"""
+
     name = models.CharField(max_length=255)
 
     def get_vocab_label(self):
-        return re.sub( r"([A-Z])", r" \1", self.name).strip()
+        return re.sub(r"([A-Z])", r" \1", self.name).strip()
 
 
 @reversion.register()
@@ -22,7 +24,9 @@ class VocabsBaseClass(models.Model):
     """ An abstract base class for other classes which contain so called
     'controlled vocablury' to describe subtypes of main temporalized
     entites"""
-    choices_status = (('rej', 'rejected'), ('ac', 'accepted'), ('can', 'candidate'), ('del', 'deleted'))
+    choices_status = (
+        ('rej', 'rejected'), ('ac', 'accepted'), ('can', 'candidate'), ('del', 'deleted')
+    )
     name = models.CharField(max_length=255, verbose_name='Name')
     description = models.TextField(
         blank=True,
@@ -31,7 +35,7 @@ class VocabsBaseClass(models.Model):
                                      on_delete=models.CASCADE)
     status = models.CharField(max_length=4, choices=choices_status, default='can')
     userAdded = models.ForeignKey(User, blank=True, null=True,
-                                  on_delete=models.SET_NULL)  #changed from default=12
+                                  on_delete=models.SET_NULL)  # changed from default=12
     vocab_name = models.ForeignKey(VocabNames, blank=True, null=True,
                                    on_delete=models.SET_NULL)
 
@@ -41,7 +45,7 @@ class VocabsBaseClass(models.Model):
     def save(self, *args, **kwargs):
         d, created = VocabNames.objects.get_or_create(name=type(self).__name__)
         self.vocab_name = d
-        if self.name != unicodedata.normalize('NFC', self.name):    #secure correct unicode encoding
+        if self.name != unicodedata.normalize('NFC', self.name):   # secure correct unicode encoding
             self.name = unicodedata.normalize('NFC', self.name)
         super(VocabsBaseClass, self).save(*args, **kwargs)
         return self
@@ -54,7 +58,6 @@ class VocabsBaseClass(models.Model):
             res = d.parent_class.name + ' >> ' + res
             d = d.parent_class
         return res
-
 
 
 @reversion.register(follow=['vocabsbaseclass_ptr'])

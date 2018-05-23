@@ -4,8 +4,6 @@
 {% block Titel %} {{ object.id }} {% endblock %}
 {% block scriptHeader %}
 {{ block.super }}
-<link rel="stylesheet" href="http://teic.github.io/CETEIcean/css/CETEIcean.css" media="screen" charset="utf-8">
-<script src="http://teic.github.io/CETEIcean/js/CETEI.js"></script>
 <style>
   html {margin: 0; padding: 0}
 </style>
@@ -152,13 +150,4 @@
 {% endblock content %}
 {% block scripts %}
 {{block.super}}
-<script type="text/javascript">
-    var CETEIcean = new CETEI();
-    var teiString = $("#sourctei").text();
-    CETEIcean.makeHTML5(teiString, function(data) {
-        document.getElementById("TEI").innerHTML = "";
-        document.getElementById("TEI").appendChild(data);
-        CETEIcean.addStyle(document, data);
-    });
-</script>
 {% endblock scripts %}
