@@ -13,9 +13,6 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <h3 class="row-heading pb-2 mb-3 border-bottom"></i> Verhältnis: Einträge - Personen </h3>
-            </div>
             <div class="col-md-4  text-center">
                 <div class="card flex-md-row mb-4 box-shadow">
                     <div class="card-body">
@@ -48,6 +45,39 @@
             </div>
         </div>
         <hr/>
+        <div class="row">
+            <div class="col-md-4  text-center">
+                <div class="card flex-md-row mb-4 box-shadow">
+                    <div class="card-body">
+                        <h4 class="mb-0">Durchschnittliche Bearbeitungsdauer (in Tagen)</h4>
+                        <p>
+                            {{ duration_mean }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4  text-center">
+                <div class="card flex-md-row mb-4 box-shadow">
+                    <div class="card-body">
+                        <h4 class="mb-0">Längste Bearbeitungsdauer (in Tagen)</h4>
+                        <p>
+                            {{ duration_max }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4  text-center">
+                <div class="card flex-md-row mb-4 box-shadow">
+                    <div class="card-body">
+                        <h4 class="mb-0">Kürzeste Bearbeitungsdauer (in Tagen)</h4>
+                        <p>
+                            {{ duration_min }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ duration_table|safe }}
         <table class='table'>
             <tr>
                 <th>

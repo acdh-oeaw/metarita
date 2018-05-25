@@ -39,7 +39,9 @@ class Person(TempEntityClass):
         blank=True)
 
     def __str__(self):
-        if self.first_name != "" and self.name != "":
+        if self.written_name != "":
+            return "{}".format(self.written_name)
+        elif self.first_name != "" and self.name != "":
             return "{}, {}".format(self.name, self.first_name)
         elif self.first_name != "" and self.name == "":
             return "{}, {}".format("no surename provided", self.first_name)
@@ -64,6 +66,18 @@ class Person(TempEntityClass):
                 self.first_name = unicodedata.normalize('NFC', self.first_name)
         super(Person, self).save(*args, **kwargs)
         return self
+
+    def get_next(self):
+        next = Person.objects.filter(id__gt=self.id)
+        if next:
+            return next.first().id
+        return False
+
+    def get_prev(self):
+        prev = Person.objects.filter(id__lt=self.id).order_by('-id')
+        if prev:
+            return prev.first().id
+        return False
 
 
 @reversion.register(follow=['tempentityclass_ptr'])

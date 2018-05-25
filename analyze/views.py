@@ -1,5 +1,6 @@
 from collections import Counter
 import pandas as pd
+from datetime import date, timedelta
 
 from django.db.models import Avg, Sum, Count
 from django.shortcuts import render
@@ -47,4 +48,18 @@ class WorkAnalyze(TemplateView):
         context['mean'] = df['rel_persons'].mean()
         context['max'] = df['rel_persons'].max()
         context['min'] = df['rel_persons'].min()
+        queryset = list(
+            Work.objects.exclude(kind__name='Verfachbuch')
+            .exclude(start_date__isnull=True)
+            .values('name', 'id', 'start_date', 'end_date'))
+        df = pd.DataFrame(queryset)
+        df['duration'] = df.apply(
+            lambda row: "{}".format((row['end_date']-row['start_date']) + timedelta(days=1)), axis=1
+        )
+        df['occurences'] = df.groupby('duration')['duration'].transform(pd.Series.value_counts)
+        context['duration_table'] = df.sort_values('duration').to_html(classes=['table'])
+        # by_duration = df.groupby('duration').count()
+        # context['duration_max'] = by_duration['end_date'].max()
+        # context['duration_min'] = by_duration['end_date'].min()
+        # context['duration_mean'] = by_duration['end_date'].mean()
         return context
