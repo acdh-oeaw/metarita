@@ -1,13 +1,22 @@
 from collections import Counter
 import pandas as pd
 from datetime import date, timedelta
-
+from django.urls import reverse
 from django.db.models import Avg, Sum, Count
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from relations.models import *
 from entities.models import *
+
+
+def make_href(row):
+    url = reverse(
+        'entities:generic_entities_detail_view',
+        kwargs={'pk': row['id'], 'entity': 'work'}
+    )
+    element = """<a href="{}">{}</a>""".format(url, row['id'])
+    return element
 
 
 def get_works_by_rel_person(num_rel_persons):
@@ -58,8 +67,11 @@ class WorkAnalyze(TemplateView):
                 "{}".format((row['end_date']-row['start_date']) + timedelta(days=1))
             ), axis=1
         )
+        df['id'] = df.apply(lambda row: make_href(row), axis=1)
         df['occurences'] = df.groupby('duration')['duration'].transform(pd.Series.value_counts)
-        context['duration_table'] = df.sort_values('duration').to_html(classes=['table'])
+        context['duration_table'] = df.sort_values('duration').to_html(
+            classes=['table'], escape=False
+        )
         context['duration_max'] = df['duration'].max()
         context['duration_min'] = df['duration'].min()
         context['duration_mean'] = df['duration'].mean()

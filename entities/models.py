@@ -1,5 +1,5 @@
 from django.db import models
- #from reversion import revisions as reversion
+# from reversion import revisions as reversion
 import reversion
 from django.urls import reverse
 from django.db.models.signals import post_save, m2m_changed
