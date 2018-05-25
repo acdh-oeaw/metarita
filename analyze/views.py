@@ -54,12 +54,13 @@ class WorkAnalyze(TemplateView):
             .values('name', 'id', 'start_date', 'end_date'))
         df = pd.DataFrame(queryset)
         df['duration'] = df.apply(
-            lambda row: "{}".format((row['end_date']-row['start_date']) + timedelta(days=1)), axis=1
+            lambda row: pd.to_timedelta(
+                "{}".format((row['end_date']-row['start_date']) + timedelta(days=1))
+            ), axis=1
         )
         df['occurences'] = df.groupby('duration')['duration'].transform(pd.Series.value_counts)
         context['duration_table'] = df.sort_values('duration').to_html(classes=['table'])
-        # by_duration = df.groupby('duration').count()
-        # context['duration_max'] = by_duration['end_date'].max()
-        # context['duration_min'] = by_duration['end_date'].min()
-        # context['duration_mean'] = by_duration['end_date'].mean()
+        context['duration_max'] = df['duration'].max()
+        context['duration_min'] = df['duration'].min()
+        context['duration_mean'] = df['duration'].mean()
         return context
