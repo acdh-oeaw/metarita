@@ -214,6 +214,7 @@ APIS_ENTITIES = {
             ],
         'list_filters': [
                 ('name', {'method': 'wildcard_filter', 'label': 'Name'}),
+                ('id', {'label': 'id'}),
                 ('kind', {'label': 'Dokument Typ'}),
                 ('buecher', {'method': 'wildcard_filter', 'label': 'Bücher'}),
                 ]},

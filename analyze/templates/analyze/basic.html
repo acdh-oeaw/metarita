@@ -19,7 +19,7 @@
             <div class="col-md-4  text-center">
                 <div class="card flex-md-row mb-4 box-shadow">
                     <div class="card-body">
-                        <h4 class="mb-0">Durschnitt der pro Eintrag erwähnten Personen</h4>
+                        <h4 class="mb-0">Durchschnitt der pro Eintrag erwähnten Personen</h4>
                         <p>
                             {{ mean }}
                         </p>
@@ -31,7 +31,7 @@
                     <div class="card-body">
                         <h4 class="mb-0">Höchste Zahl erwähnter Personen</h4>
                         <p>
-                            {{ max }}
+                            <a href="{% url 'analyze:work_sample' pk=max %}">{{ max }}</a>
                         </p>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                     <div class="card-body">
                         <h4 class="mb-0">Niedrigste Zahl erwähnter Personen</h4>
                         <p>
-                            {{ min }}
+                            <a href="{% url 'analyze:work_sample' pk=min %}">{{ min }}</a>
                         </p>
                     </div>
                 </div>
@@ -59,11 +59,12 @@
             </tr>
             {% for row in rows %}
                 <tr>
-                    {% for x in row %}
-                        <td>
-                            {{ x }}
-                        </td>
-                    {% endfor %}
+                    <td>
+                        {{ row|first }}
+                    </td>
+                    <td>
+                        <a href="{% url 'analyze:work_sample' pk=row|first %}">{{ row|last }}</a>
+                    </td>
                 </tr>
             {% endfor %}
         </table>

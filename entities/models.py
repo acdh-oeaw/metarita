@@ -1,6 +1,7 @@
 from django.db import models
-#from reversion import revisions as reversion
+ #from reversion import revisions as reversion
 import reversion
+from django.urls import reverse
 from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from guardian.shortcuts import assign_perm, remove_perm
@@ -169,6 +170,15 @@ class Work(TempEntityClass):
         verbose_name="Buch/Bücher",
         help_text="Buch/Bücher"
     )
+
+    def get_absolute_url(self):
+        return reverse(
+            'entities:generic_entities_detail_view',
+            kwargs={
+                'pk': self.id,
+                'entity': 'work'
+            }
+        )
 
     def get_next(self):
         next = Work.objects.filter(id__gt=self.id)
