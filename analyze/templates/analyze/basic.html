@@ -3,10 +3,13 @@
 {% load django_tables2 %}
 {% block titel %} Analysen {% endblock %}
 {% block scriptHeader %}
+
 {{ block.super }}
 <style>
   html {margin: 0; padding: 0}
 </style>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.16/b-1.4.2/b-html5-1.4.2/b-print-1.4.2/datatables.min.css"/>
+<script type="text/javascript" src="{% static 'webpage/libraries/bower_components/datatables.net/js/jquery.dataTables.js' %}"></script>
 {% endblock scriptHeader %}
 {% block content %}
     <h1>Analysen</h1>
@@ -77,29 +80,41 @@
                 </div>
             </div>
         </div>
-        {{ duration_table|safe }}
-        <table class='table'>
-            <tr>
-                <th>
-                    Anzahl der erwähnten Personen
-                </th>
-                <th>
-                    Anzahl der Einträge
-                </th>
-            </tr>
-            {% for row in rows %}
+        <!--{{ duration_table|safe }}-->
+        <table class='table' id="work_person">
+            <thead>
                 <tr>
-                    <td>
-                        {{ row|first }}
-                    </td>
-                    <td>
-                        <a href="{% url 'analyze:work_sample' pk=row|first %}">{{ row|last }}</a>
-                    </td>
+                    <th>
+                        Anzahl der erwähnten Personen
+                    </th>
+                    <th>
+                        Anzahl der Einträge
+                    </th>
                 </tr>
-            {% endfor %}
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        <td>
+                            {{ row|first }}
+                        </td>
+                        <td>
+                            <a href="{% url 'analyze:work_sample' pk=row|first %}">{{ row|last }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
         </table>
 
     </div>
 {% endblock %}
 {% block scripts %}
+
+    <script>
+        $(document).ready(function() {
+            $('#work_person').DataTable({
+                "paging":   true,
+            });
+        } );
+    </script>
 {% endblock scripts %}

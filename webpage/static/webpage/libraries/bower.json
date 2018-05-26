@@ -24,7 +24,17 @@
     "linkurious.js": "sennierer/linkurious.js#^1.5.4",
     "CETEI": "https://github.com/TEIC/CETEIcean/releases/download/v0.4.0/CETEI.js",
     "reveal.js": "hakimel/reveal.js#^3.6.0",
-    "components-font-awesome": "^4.7.0"
+    "components-font-awesome": "^4.7.0",
+    "jszip": "^3.1.5",
+    "pdfmake": "^0.1.36",
+    "datatables.net-bs": "^2.1.1",
+    "datatables-autofill-bs": "datatables.net-autofill-bs#^2.2.2",
+    "datatables.net-buttons-bs": "^1.4.2",
+    "datatables.net-colreorder-bs": "^1.4.1",
+    "datatables.net-responsive-bs": "^2.2.0",
+    "datatables.net-rowgroup-bs": "^1.0.2",
+    "datatables.net-select-bs": "^1.2.3",
+    "highcharts": "^6.1.0"
   },
   "resolutions": {
     "jquery": "1.9.1 - 3"
