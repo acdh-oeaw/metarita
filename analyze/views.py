@@ -70,7 +70,7 @@ class WorkAnalyze(TemplateView):
         df['id'] = df.apply(lambda row: make_href(row), axis=1)
         df['occurences'] = df.groupby('duration')['duration'].transform(pd.Series.value_counts)
         context['duration_table'] = df.sort_values('duration').to_html(
-            classes=['table'], escape=False
+            classes=['table'], escape=False, table_id='duration_table'
         )
         context['duration_max'] = df['duration'].max()
         context['duration_min'] = df['duration'].min()

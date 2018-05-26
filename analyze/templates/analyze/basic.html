@@ -8,8 +8,17 @@
 <style>
   html {margin: 0; padding: 0}
 </style>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.16/b-1.4.2/b-html5-1.4.2/b-print-1.4.2/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="{% static 'webpage/libraries/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'webpage/libraries/bower_components/datatables.net-buttons-bs/css/buttons.bootstrap.min.css' %}"/>
+
+<script type="text/javascript" src="{% static 'webpage/libraries/bower_components/pdfmake/build/pdfmake.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'webpage/libraries/bower_components/pdfmake/build/vfs_fonts.js' %}"></script>
+<script type="text/javascript" src="{% static 'webpage/libraries/bower_components/jszip/dist/jszip.min.js' %}"></script>
+
 <script type="text/javascript" src="{% static 'webpage/libraries/bower_components/datatables.net/js/jquery.dataTables.js' %}"></script>
+<script type="text/javascript" src="{% static 'webpage/libraries/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'webpage/libraries/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'webpage/libraries/bower_components/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
 {% endblock scriptHeader %}
 {% block content %}
     <h1>Analysen</h1>
@@ -80,8 +89,8 @@
                 </div>
             </div>
         </div>
-        <!--{{ duration_table|safe }}-->
-        <table class='table' id="work_person">
+        {{ duration_table|safe }}
+        <table class="table table-striped table-bordered" id="work_person">
             <thead>
                 <tr>
                     <th>
@@ -112,8 +121,12 @@
 
     <script>
         $(document).ready(function() {
-            $('#work_person').DataTable({
+            $('#duration_table').DataTable({
                 "paging":   true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ]
             });
         } );
     </script>
