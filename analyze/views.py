@@ -50,6 +50,7 @@ class WorkAnalyze(TemplateView):
             PersonWork.objects.values('related_work__name')
             .annotate(rel_persons=Count('related_person'))
         )
+        pd.set_option('display.max_colwidth', -1)
         df = pd.DataFrame(queryset)
         by_rel_pers = df.groupby('rel_persons').count()
         context['rows'] = [[i for i in row] for row in by_rel_pers.itertuples()]
@@ -68,7 +69,7 @@ class WorkAnalyze(TemplateView):
             ), axis=1
         )
         df['id'] = df.apply(lambda row: make_href(row), axis=1)
-        df['occurences'] = df.groupby('duration')['duration'].transform(pd.Series.value_counts)
+        df['occurences'] = df.groupby('duration')['duration'].transform('count')
         context['duration_table'] = df.sort_values('duration').to_html(
             classes=['table'], escape=False, table_id='duration_table'
         )
