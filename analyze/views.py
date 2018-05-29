@@ -10,13 +10,26 @@ from relations.models import *
 from entities.models import *
 
 
-def make_href(row):
+def make_href(row, entity='work', id='id', label=None):
     url = reverse(
         'entities:generic_entities_detail_view',
-        kwargs={'pk': row['id'], 'entity': 'work'}
+        kwargs={'pk': row[id], 'entity': entity}
     )
-    element = """<a href="{}">{}</a>""".format(url, row['id'])
+    if label:
+        element = """<a href="{}" target='_blank'>{}</a>""".format(url, row[label])
+    else:
+        element = """<a href="{}" target='_blank'>{}</a>""".format(url, 'link2object')
     return element
+
+
+def calculate_duration(row):
+    if row['end_date'] and row['start_date']:
+        time = pd.to_timedelta(
+            "{}".format((row['end_date']-row['start_date']) + timedelta(days=1))
+        )
+    else:
+        time = pd.to_timedelta("0 days")
+    return time
 
 
 def get_works_by_rel_person(num_rel_persons):
@@ -46,34 +59,35 @@ class WorkAnalyze(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(WorkAnalyze, self).get_context_data()
-        queryset = list(
-            PersonWork.objects.values('related_work__name')
-            .annotate(rel_persons=Count('related_person'))
-        )
         pd.set_option('display.max_colwidth', -1)
-        df = pd.DataFrame(queryset)
-        by_rel_pers = df.groupby('rel_persons').count()
-        context['rows'] = [[i for i in row] for row in by_rel_pers.itertuples()]
-        context['relations'] = len(queryset)
-        context['mean'] = df['rel_persons'].mean()
-        context['max'] = df['rel_persons'].max()
-        context['min'] = df['rel_persons'].min()
+
+        # PersonWorkRelation
         queryset = list(
-            Work.objects.exclude(kind__name='Verfachbuch')
-            .exclude(start_date__isnull=True)
-            .values('name', 'id', 'start_date', 'end_date'))
+            PersonWork.objects.values(
+                'id',
+                'relation_type__name',
+                'related_work__name',
+                'related_work__id',
+                'related_person__name',
+                'related_person',
+                'start_date',
+                'end_date',
+            )
+        )
         df = pd.DataFrame(queryset)
-        df['duration'] = df.apply(
-            lambda row: pd.to_timedelta(
-                "{}".format((row['end_date']-row['start_date']) + timedelta(days=1))
+        df['related_work__name'] = df.apply(
+            lambda row: make_href(
+                row, entity='work',
+                id='related_work__id',
+                label='related_work__name'
             ), axis=1
         )
-        df['id'] = df.apply(lambda row: make_href(row), axis=1)
-        df['occurences'] = df.groupby('duration')['duration'].transform('count')
-        context['duration_table'] = df.sort_values('duration').to_html(
-            classes=['table'], escape=False, table_id='duration_table'
+        df['involved_pers'] = df.groupby('related_work__name')['related_work__name']\
+            .transform('count')
+        df['grouped_by_pers'] = df.groupby('involved_pers')['involved_pers'].transform('count')
+        df['grouped_by_pers'] = (df['grouped_by_pers'] / df['involved_pers'])
+        df['duration'] = df.apply(lambda row: calculate_duration(row), axis=1)
+        context['PersonWork_table'] = df.to_html(
+            classes=['table'], escape=False, table_id='PersonWork_table'
         )
-        context['duration_max'] = df['duration'].max()
-        context['duration_min'] = df['duration'].min()
-        context['duration_mean'] = df['duration'].mean()
         return context

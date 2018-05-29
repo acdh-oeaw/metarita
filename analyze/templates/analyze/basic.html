@@ -31,96 +31,9 @@
     <h1>Analysen</h1>
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-4  text-center">
-                <div class="card flex-md-row mb-4 box-shadow">
-                    <div class="card-body">
-                        <h4 class="mb-0">Durchschnitt der pro Eintrag erwähnten Personen</h4>
-                        <p>
-                            {{ mean }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4  text-center">
-                <div class="card flex-md-row mb-4 box-shadow">
-                    <div class="card-body">
-                        <h4 class="mb-0">Höchste Zahl erwähnter Personen</h4>
-                        <p>
-                            <a href="{% url 'analyze:work_sample' pk=max %}">{{ max }}</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4  text-center">
-                <div class="card flex-md-row mb-4 box-shadow">
-                    <div class="card-body">
-                        <h4 class="mb-0">Niedrigste Zahl erwähnter Personen</h4>
-                        <p>
-                            <a href="{% url 'analyze:work_sample' pk=min %}">{{ min }}</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr/>
-        <div class="row">
-            <div class="col-md-4  text-center">
-                <div class="card flex-md-row mb-4 box-shadow">
-                    <div class="card-body">
-                        <h4 class="mb-0">Durchschnittliche Bearbeitungsdauer</h4>
-                        <p>
-                            {{ duration_mean }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4  text-center">
-                <div class="card flex-md-row mb-4 box-shadow">
-                    <div class="card-body">
-                        <h4 class="mb-0">Längste Bearbeitungsdauer</h4>
-                        <p>
-                            {{ duration_max }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4  text-center">
-                <div class="card flex-md-row mb-4 box-shadow">
-                    <div class="card-body">
-                        <h4 class="mb-0">Kürzeste Bearbeitungsdauer</h4>
-                        <p>
-                            {{ duration_min }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{ duration_table|safe }}
-        <table class="table" id="work_person_table">
-            <thead>
-                <tr>
-                    <th>
-                        Anzahl der erwähnten Personen
-                    </th>
-                    <th>
-                        Anzahl der Einträge
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in rows %}
-                    <tr>
-                        <td>
-                            {{ row|first }}
-                        </td>
-                        <td>
-                            <a href="{% url 'analyze:work_sample' pk=row|first %}">{{ row|last }}</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+        <h3>Personen Werke Verbindungen</h3>
+        {{ PersonWork_table|safe }}
 
     </div>
 {% endblock %}
@@ -128,7 +41,11 @@
 
     <script>
         $(document).ready(function() {
+            $('<div class="loading">Loading</div>').appendTo('body');
             $('.table').DataTable({
+                "initComplete": function( settings, json ) {
+                    $('div.loading').remove();
+                },
                 "paging":   true,
                 responsive: true,
                 dom: 'Bfrtip',
