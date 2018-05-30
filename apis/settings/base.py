@@ -210,10 +210,15 @@ APIS_ENTITIES = {
             'kind',
             'invenatar_summe_norm',
             'vor_passiva',
-            'buecher'
+            'schreib_sachen',
+            'nicht_vollstaendig',
+            'buecher_sys',
             ],
         'list_filters': [
                 ('name', {'method': 'wildcard_filter', 'label': 'Name'}),
+                ('buecher_sys', {'label': 'Bücher verzeichnet?'}),
+                ('schreib_sachen', {'label': 'Schreib-, Lesesachen verzeichnet?'}),
+                ('nicht_vollstaendig', {'label': 'Inventar unvollständig?'}),
                 ('id', {'label': 'id'}),
                 ('kind', {'label': 'Dokument Typ'}),
                 ('buecher', {'method': 'wildcard_filter', 'label': 'Bücher'}),

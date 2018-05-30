@@ -184,6 +184,18 @@ class Work(TempEntityClass):
         verbose_name="Buch/Bücher",
         help_text="Buch/Bücher"
     )
+    buecher_sys = models.NullBooleanField(
+        blank=True, null=True,
+        verbose_name="Bücher erwähnt?"
+    )
+    nicht_vollstaendig = models.NullBooleanField(
+        blank=True, null=True,
+        verbose_name="Inventar unvollständig?"
+    )
+    schreib_sachen = models.NullBooleanField(
+        blank=True, null=True,
+        verbose_name="Schreib- und Lesesachen"
+    )
 
     def get_absolute_url(self):
         return reverse(
