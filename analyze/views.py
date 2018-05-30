@@ -42,7 +42,7 @@ def get_datatables_data(request):
             'id',
             'relation_type__name',
             'related_work__name',
-            'related_work__id',
+            'related_work',
             'related_person__name',
             'related_person',
             'start_date',
@@ -53,8 +53,15 @@ def get_datatables_data(request):
     df['related_work__name'] = df.apply(
         lambda row: make_href(
             row, entity='work',
-            id='related_work__id',
+            id='related_work',
             label='related_work__name'
+        ), axis=1
+    )
+    df['related_person__name'] = df.apply(
+        lambda row: make_href(
+            row, entity='person',
+            id='related_person',
+            label='related_person__name'
         ), axis=1
     )
     df['involved_pers'] = df.groupby('related_work__name')['related_work__name']\
@@ -68,6 +75,7 @@ def get_datatables_data(request):
     df['duration'] = df.apply(lambda row: calculate_duration(row), axis=1)
     df['duration'] = df.apply(lambda row: calculate_duration(row), axis=1)
     payload = {}
+    df = df.drop(columns=['id', 'related_work', 'related_person'])
     payload['data'] = df.values.tolist()
     payload['columns'] = list(df)
     return JsonResponse(payload)
