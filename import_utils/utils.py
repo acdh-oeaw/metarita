@@ -14,13 +14,13 @@ def clean_date_cells(date_string_list):
     return cleaned
 
 
-def get_start_end(date_string_list, as_dates=True):
+def get_start_end(date_string_list, as_dates=True, dayfirst=True):
     cleaned = clean_date_cells(date_string_list)
     try:
         if as_dates:
             first_last = (
-                parser.parse(cleaned[0]).date().strftime("%d.%m.%Y"),
-                parser.parse(cleaned[-1]).date().strftime("%d.%m.%Y")
+                parser.parse(cleaned[0], dayfirst=dayfirst).date().strftime("%d.%m.%Y"),
+                parser.parse(cleaned[-1], dayfirst=dayfirst).date().strftime("%d.%m.%Y")
             )
         else:
             first_last = cleaned[0], cleaned[-1]
