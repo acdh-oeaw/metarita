@@ -2,6 +2,8 @@ from django.http import JsonResponse
 from collections import Counter
 import pandas as pd
 from datetime import date, timedelta
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.urls import reverse
 from django.db.models import Avg, Sum, Count
 from django.shortcuts import render
@@ -81,5 +83,6 @@ def get_datatables_data(request):
     return JsonResponse(payload)
 
 
+@method_decorator(login_required, name='dispatch')
 class WorkAnalyze(TemplateView):
     template_name = "analyze/basic.html"
