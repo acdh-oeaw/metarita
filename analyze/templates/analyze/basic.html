@@ -7,6 +7,19 @@
 {{ block.super }}
 <style>
   html {margin: 0; padding: 0}
+  .loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 </style>
 
 <link rel="stylesheet" type="text/css" href="{% static 'webpage/libraries/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}"/>
@@ -33,26 +46,51 @@
     <div class="container">
 
         <h3>Personen Werke Verbindungen</h3>
-        {{ PersonWork_table|safe }}
+        <div class="loader"></div>
+        <div id="tablewrapper" style="display: none">
+            <table class="table">
+                <thead>
+                    <tr>
+                        {% for x in columns %}
+                            <th>
+                                {{ x }}
+                            </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        {% for x in columns %}
+                            <th>
+                                {{ x }}
+                            </th>
+                        {% endfor %}
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
 
     </div>
 {% endblock %}
 {% block scripts %}
 
-    <script>
-        $(document).ready(function() {
-            $('<div class="loading">Loading</div>').appendTo('body');
-            $('.table').DataTable({
-                "initComplete": function( settings, json ) {
-                    $('div.loading').remove();
-                },
-                "paging":   true,
-                responsive: true,
-                dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'excel', 'pdf', 'columnsToggle'
-                ]
-            });
-        } );
-    </script>
+<script>
+    $(document).ready(function() {
+        $('.table').DataTable({
+            "ajax": "{% url 'analyze:get_data' %}",
+            "initComplete": function( settings, json ) {
+                $('.loader').remove();
+                $('#tablewrapper').show();
+            },
+            "deferRender": true,
+            "paging":   true,
+            responsive: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'excel', 'pdf', 'columnsToggle'
+            ]
+        });
+    } );
+</script>
 {% endblock scripts %}

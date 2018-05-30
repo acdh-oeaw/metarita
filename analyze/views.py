@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from collections import Counter
 import pandas as pd
 from datetime import date, timedelta
@@ -25,10 +26,10 @@ def make_href(row, entity='work', id='id', label=None):
 def calculate_duration(row):
     if row['end_date'] and row['start_date']:
         time = pd.to_timedelta(
-            "{}".format((row['end_date']-row['start_date']) + timedelta(days=1))
-        )
+            (row['end_date']-row['start_date']) + timedelta(days=1)
+        ).__str__()
     else:
-        time = pd.to_timedelta("0 days")
+        time = pd.to_timedelta("0 days").__str__()
     return time
 
 
@@ -52,6 +53,41 @@ class SelectedSample(TemplateView):
         works = get_works_by_rel_person(num_rel_persons)
         context['works'] = works[1]
         return context
+
+
+def get_datatables_data(request):
+    pd.set_option('display.max_colwidth', -1)
+
+    # PersonWorkRelation
+    queryset = list(
+        PersonWork.objects.values(
+            'id',
+            'relation_type__name',
+            'related_work__name',
+            'related_work__id',
+            'related_person__name',
+            'related_person',
+            'start_date',
+            'end_date',
+        )
+    )
+    df = pd.DataFrame(queryset)
+    df['related_work__name'] = df.apply(
+        lambda row: make_href(
+            row, entity='work',
+            id='related_work__id',
+            label='related_work__name'
+        ), axis=1
+    )
+    df['involved_pers'] = df.groupby('related_work__name')['related_work__name']\
+        .transform('count')
+    df['grouped_by_pers'] = df.groupby('involved_pers')['involved_pers'].transform('count')
+    df['grouped_by_pers'] = (df['grouped_by_pers'] / df['involved_pers'])
+    df['duration'] = df.apply(lambda row: calculate_duration(row), axis=1)
+    df['duration'] = df.apply(lambda row: calculate_duration(row), axis=1)
+    payload = {}
+    payload['data'] = df.values.tolist()
+    return JsonResponse(payload)
 
 
 class WorkAnalyze(TemplateView):
@@ -90,4 +126,5 @@ class WorkAnalyze(TemplateView):
         context['PersonWork_table'] = df.to_html(
             classes=['table'], escape=False, table_id='PersonWork_table'
         )
+        context['columns'] = list(df)
         return context
