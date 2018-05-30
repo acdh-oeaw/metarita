@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'guardian',
     'analyze',
-    # 'registration', activate this for a registration form
+    'charts',
 ]
 
 REST_FRAMEWORK = {
