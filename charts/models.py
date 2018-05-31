@@ -20,6 +20,10 @@ class ChartType(models.Model):
 class ChartConfig(models.Model):
     """A class to store config-info for Charts"""
 
+    model_name = models.CharField(
+        max_length=255, blank=True,
+        help_text="The name of the model class you's like to analyse."
+    )
     label = models.CharField(
         max_length=255, blank=True, help_text="A label of the chart."
     )

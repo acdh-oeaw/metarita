@@ -39,7 +39,7 @@
             </td>
             <td>
                 {% for chart in x.chart_types.all  %}
-                <a href="{% url 'charts:dynchart' property=x.field_path charttype=chart.name %}">
+                <a href="{% url 'charts:dynchart' model_name=x.model_name property=x.field_path charttype=chart.name %}">
                     {{ chart.icon | safe }}
                 </a>
                 {% endfor %}

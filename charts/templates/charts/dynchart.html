@@ -13,8 +13,8 @@
     <!--highcharts END -->
 {% endblock %}
 {% block content %}
-{% if error %}
-<h1>Some error occured, most likely, the property <code>{{ property_name }}</code> you would like to display does not exist</h1>
+{% if fatal_error %}
+<h1>{{ error_msg|safe }}</h1>
 {% else %}
 <div class="container">
 
@@ -22,9 +22,9 @@
         <div class="panel-heading" style="text-align:center;">
             <h1>{{ data.title }}</h1>
             <legend>{{ data.items }}</legend>
-            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myFilter" title="click to add filter">
-            <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-          </button>
+            <!--<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myFilter" title="click to add filter">
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+            </button>-->
            <button  type="button" class="btn btn-default" data-toggle="collapse" data-target="#howtocite" id="howtocite-btn">JSON data</button>
 
      <div id="howtocite" class="collapse">
@@ -34,6 +34,9 @@
         <div class="panel-body">
             <div id="bar"></div>
         </div>
+        {% if error %}
+            <h4>{{ error_msg|safe }}</h4>
+        {% endif %}
     </div>
 
 
