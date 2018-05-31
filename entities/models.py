@@ -153,6 +153,22 @@ class Event(TempEntityClass):
             return False
 
 
+BUECHER = (
+    ('Bücher', 'Bücher'),
+    ('keine Bücher', 'keine Bücher'),
+)
+
+VOLLSTAENDIG = (
+    ('vollständig', 'vollständig'),
+    ('unvollständig', 'unvollständig'),
+)
+
+SCHREIBUTENSIELIEN = (
+    ('Lese- und Schreibsachen', 'Lese- und Schreibsachen'),
+    ('keine Lese- und Schreibsachen', 'keine Lese- und Schreibsachen'),
+)
+
+
 @reversion.register(follow=['tempentityclass_ptr'])
 class Work(TempEntityClass):
     kind = models.ForeignKey(
@@ -184,17 +200,21 @@ class Work(TempEntityClass):
         verbose_name="Buch/Bücher",
         help_text="Buch/Bücher"
     )
-    buecher_sys = models.NullBooleanField(
-        blank=True, null=True,
+    buecher_sys = models.CharField(
+        blank=True, null=True, default="keine Bücher",
+        choices=BUECHER, max_length=250,
         verbose_name="Bücher erwähnt?"
     )
-    nicht_vollstaendig = models.NullBooleanField(
-        blank=True, null=True,
-        verbose_name="Inventar unvollständig?"
+    vollstaendig = models.CharField(
+        blank=True, null=True, default="vollständig",
+        verbose_name="Inventar vollständig?",
+        choices=VOLLSTAENDIG, max_length=250,
     )
-    schreib_sachen = models.NullBooleanField(
-        blank=True, null=True,
-        verbose_name="Schreib- und Lesesachen"
+    schreib_sachen = models.CharField(
+        blank=True, null=True, max_length=250,
+        verbose_name="Schreib- und Lesesachen",
+        default="keine Lese- und Schreibsachen",
+        choices=SCHREIBUTENSIELIEN
     )
 
     def get_absolute_url(self):

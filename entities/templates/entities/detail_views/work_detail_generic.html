@@ -50,6 +50,22 @@
                 {{ object.buecher }}
             </td>
         </tr>
+        <tr>
+            <th>
+                Schreibutensilien
+            </th>
+            <td>
+                {{ object.schreib_sachen }}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Vollständiges Inventar?
+            </th>
+            <td>
+                {{ object.vollstaendig }}
+            </td>
+        </tr>
 
         {% if object.start_date or object.end_date %}
         <tr>
