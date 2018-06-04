@@ -1,17 +1,28 @@
 import json
-from django.contrib.contenttypes.models import ContentType
+
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, FieldError
-from django_tables2 import SingleTableView, RequestConfig
-from django.views.generic import TemplateView
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Count
+from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from .models import ChartConfig
-from entities.models import Work
+
+from . models import ChartConfig
+
+try:
+    base_template = settings.CHARTS_BASE_TEMPLATE
+except AttributeError:
+    base_template = 'webpage/base.html'
 
 
 class ChartSelector(ListView):
     model = ChartConfig
     template_name = 'charts/select_chart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ChartSelector, self).get_context_data()
+        context['base_template'] = base_template
+        return context
 
 
 class DynChartView(TemplateView):
@@ -20,6 +31,7 @@ class DynChartView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(DynChartView, self).get_context_data()
+        context['base_template'] = base_template
         model_name = self.kwargs['model_name']
         try:
             ct = ContentType.objects.get(model=model_name).model_class()

@@ -1,15 +1,15 @@
-{% extends "webpage/base.html" %}
+{% extends base_template %}
 {% load staticfiles %}
-{% load django_tables2 crispy_forms_tags %}
 {% block Titel %}
     {{ data.title }}
 {% endblock %}
 
 {% block scriptHeader %}
     <!--highcharts -->
-        <script src="{% static 'webpage/libraries/bower_components/highcharts/highcharts.js' %}"></script>
-        <script src="{% static 'webpage/libraries/bower_components/highcharts/highcharts-3d.js' %}"></script>
-        <script src="{% static 'webpage/libraries/bower_components/highcharts/exporting.js' %}"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/series-label.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <!--highcharts END -->
 {% endblock %}
 {% block content %}

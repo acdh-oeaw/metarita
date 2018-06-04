@@ -25,7 +25,7 @@ from vocabularies.api_views import (
     InstitutionEventRelationViewSet, InstitutionWorkRelationViewSet, PlaceEventRelationViewSet,
     PlaceWorkRelationViewSet, EventWorkRelationViewSet, EventEventRelationViewSet,
     WorkWorkRelationViewSet, PlacePlaceRelationViewSet)
-
+from charts import urls as charts_urls
 
 router = routers.DefaultRouter()
 router.register(r'tempentity', TempEntityClassViewSet)
@@ -97,7 +97,7 @@ if 'apis_highlighter' in settings.INSTALLED_APPS:
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'analyze/', include('analyze.urls', namespace='analyze')),
-    url(r'^charts/', include('charts.urls', namespace='charts')),
+    url(r'^charts/', include(charts_urls, namespace='charts')),
     url(r'labels/', include('labels.urls', namespace='labels')),
     url(r'entities/', include('entities.urls', namespace='entities')),
     url(r'relations/', include('relations.urls', namespace='relations')),
