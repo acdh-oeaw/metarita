@@ -192,7 +192,12 @@ APIS_ENTITIES = {
               'list_filters': [('name', {'method': 'wildcard_filter', 'label': 'Name'})]},
     'Person': {'search': ['name', 'written_name', 'first_name'],
                'form_order': ['first_name', 'name'],
-               'table_fields': ['name', 'first_name', 'profession'],
+               'table_fields': [
+                    'name',
+                    'gender',
+                    'first_name',
+                    'profession'
+                ],
                'list_filters': [('name', {'method': 'name_label_filter', 'label': 'Name complete'}),
                                 ('first_name', {'method': 'wildcard_filter', 'label': 'Firstname'}),
                                 ('gender', {'label': 'Gender'}),
@@ -208,16 +213,14 @@ APIS_ENTITIES = {
         'table_fields': [
             'name',
             'kind',
-            'invenatar_summe_norm',
-            'vor_passiva',
-            'schreib_sachen',
             'vollstaendig',
-            'buecher_sys',
+            'invenatar_summe_norm_fl',
+            'vor_passiva_fl',
+            'nach_passiva_fl',
             ],
         'list_filters': [
                 ('name', {'method': 'wildcard_filter', 'label': 'Name'}),
                 ('buecher_sys', {'label': 'Bücher verzeichnet?'}),
-                ('schreib_sachen', {'label': 'Schreib-, Lesesachen verzeichnet?'}),
                 ('vollstaendig', {'label': 'Inventar vollständig?'}),
                 ('id', {'label': 'id'}),
                 ('kind', {'label': 'Dokument Typ'}),

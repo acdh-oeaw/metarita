@@ -158,8 +158,13 @@ BUECHER = (
     ('keine Bücher', 'keine Bücher'),
 )
 
+MEHRERE_HAUPTPERSONEN = (
+    ('nur eine Hauptperson', 'nur eine Hauptperson'),
+    ('mehrere Personen', 'mehrere Personen')
+)
+
 VOLLSTAENDIG = (
-    ('vollständig', 'vollständig'),
+    ('unklar', 'unklar'),
     ('unvollständig', 'unvollständig'),
 )
 
@@ -175,25 +180,60 @@ class Work(TempEntityClass):
         WorkType, blank=True, null=True,
         on_delete=models.SET_NULL
     )
-    summe_inventar = models.CharField(
-        blank=True, null=True, max_length=250,
-        verbose_name="Summe Inventar",
-        help_text="Summe Inventar"
-    )
     barschaft = models.CharField(
         blank=True, null=True, max_length=250,
         verbose_name="Barschaft (teilweise eigene Berechnung)",
         help_text="Barschaft (teilweise eigene Berechnung)"
     )
-    invenatar_summe_norm = models.FloatField(
+    invenatar_summe_norm_fl = models.IntegerField(
         blank=True, null=True,
-        verbose_name="Inventarsumme",
-        help_text="Kombination aus 'Gulden- und Kreuzer Inventarsumme' Feldern"
+        verbose_name="Inventarsumme normiert (Gulden)",
+        help_text="Inventarsumme normiert (Gulden)"
     )
-    vor_passiva = models.FloatField(
+    invenatar_summe_norm_kr = models.FloatField(
         blank=True, null=True,
-        verbose_name="vor Abzug Passiva",
-        help_text="Kombination aus 'vor Abzug Passiva' Feldern"
+        verbose_name="Inventarsumme normiert (Kreuzer)",
+        help_text="Inventarsumme normiert (Kreuzer)"
+    )
+    vor_passiva_fl = models.IntegerField(
+        blank=True, null=True,
+        verbose_name="vor Abzug Passiva (Gulden)",
+        help_text="vor Abzug Passiva (Gulden)"
+    )
+    vor_passiva_kr = models.FloatField(
+        blank=True, null=True,
+        verbose_name="vor Abzug Passiva (Kreuzer)",
+        help_text="vor Abzug Passiva (Kreuzer)"
+    )
+    nach_passiva_fl = models.IntegerField(
+        blank=True, null=True,
+        verbose_name="nach Abzug Passiva (Gulden)",
+        help_text="nach Abzug Passiva (Gulden)"
+    )
+    nach_passiva_kr = models.FloatField(
+        blank=True, null=True,
+        verbose_name="nach Abzug Passiva (Kreuzer)",
+        help_text="nach Abzug Passiva (Kreuzer)"
+    )
+    comment_b = models.TextField(
+        blank=True, null=True,
+        verbose_name="Kommentar zu Spalte B",
+        help_text="Kommentar zu Spalte B"
+    )
+    comment_k = models.TextField(
+        blank=True, null=True,
+        verbose_name="Kommentar zu Spalte K",
+        help_text="Kommentar zu Spalte K"
+    )
+    comment_a = models.TextField(
+        blank=True, null=True,
+        verbose_name="Kommentar zu Spalte A",
+        help_text="Kommentar zu Spalte A"
+    )
+    only_one_person = models.CharField(
+        blank=True, null=True, default="mehrere Personen",
+        choices=MEHRERE_HAUPTPERSONEN, max_length=250,
+        verbose_name="Bücher erwähnt?"
     )
     buecher = models.TextField(
         blank=True, null=True,
@@ -206,15 +246,9 @@ class Work(TempEntityClass):
         verbose_name="Bücher erwähnt?"
     )
     vollstaendig = models.CharField(
-        blank=True, null=True, default="vollständig",
+        blank=True, null=True, default="unklar",
         verbose_name="Inventar vollständig?",
         choices=VOLLSTAENDIG, max_length=250,
-    )
-    schreib_sachen = models.CharField(
-        blank=True, null=True, max_length=250,
-        verbose_name="Schreib- und Lesesachen",
-        default="keine Lese- und Schreibsachen",
-        choices=SCHREIBUTENSIELIEN
     )
 
     def get_absolute_url(self):
