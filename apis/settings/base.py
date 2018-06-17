@@ -204,6 +204,7 @@ APIS_ENTITIES = {
                                 ('start_date', {'label': 'Date of Birth'}),
                                 ('end_date', {'label': 'Date of Death'}),
                                 ('profession', {'label': 'Profession'}),
+                                ('profession__parent_class', {'label': 'Berufsgruppe'}),
                                 ('collection', {'label': 'Collection'})]
                },
     'Institution': {'search': ['name', 'written_name'],
