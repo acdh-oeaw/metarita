@@ -85,8 +85,6 @@ class GenericEntitiesDetailView(View):
                 excel_data = None
         except AttributeError:
             excel_data = None
-        if excel_data:
-            print(excel_data)
         return HttpResponse(template.render(
             request=request, context={
                 'entity_type': entity,
