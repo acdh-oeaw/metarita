@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
@@ -14,7 +15,9 @@ from entities.views import get_highlighted_texts
 from .models import Work
 from labels.models import Label
 from metainfo.models import Uri
-from relations.tables import get_generic_relations_table, EntityLabelTable, EntityDetailViewLabelTable
+from relations.tables import (
+    get_generic_relations_table, EntityLabelTable, EntityDetailViewLabelTable
+)
 
 
 class GenericEntitiesDetailView(View):
@@ -74,13 +77,24 @@ class GenericEntitiesDetailView(View):
             'entities/detail_views/{}_detail_generic.html'.format(entity),
             'entities/detail_views/entity_detail_generic.html'
             ])
+        try:
+            excel_data = instance.excel_row
+            if excel_data:
+                excel_data = json.loads(excel_data)
+            else:
+                excel_data = None
+        except AttributeError:
+            excel_data = None
+        if excel_data:
+            print(excel_data)
         return HttpResponse(template.render(
             request=request, context={
                 'entity_type': entity,
                 'object': instance,
                 'right_panel': side_bar,
                 'object_texts': object_texts,
-                'object_lod': object_lod
+                'object_lod': object_lod,
+                'excel_data': excel_data
                 }
             ))
 

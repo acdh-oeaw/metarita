@@ -24,6 +24,7 @@ from .views import set_session_variables
 if 'apis_highlighter' in settings.INSTALLED_APPS:
     from apis_highlighter.forms import SelectAnnotatorAgreement
 
+
 @method_decorator(login_required, name='dispatch')
 class GenericEntitiesEditView(View):
 

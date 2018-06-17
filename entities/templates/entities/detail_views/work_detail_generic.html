@@ -156,8 +156,21 @@
         {{ block.super }}
     {% endblock right-panel-text %}
     {% block custom_extras %}
-    <div class="container">
-        <h2 style="text-align: center;">original Daten</h2>
-        {{ object.excel_row|safe }}
-    </div>
+        {% if excel_data %}
+            <div class="container">
+                <h2 style="text-align: center;">original Daten</h2>
+                <table class="table table-bordered table-hover">
+                    {% for key, value in excel_data.items %}
+                        <tr>
+                            <th>
+                                {{ key }}
+                            </th>
+                            <td>
+                                {{ value }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
     {% endblock %}
