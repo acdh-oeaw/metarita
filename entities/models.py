@@ -233,7 +233,7 @@ class Work(TempEntityClass):
     only_one_person = models.CharField(
         blank=True, null=True, default="mehrere Personen",
         choices=MEHRERE_HAUPTPERSONEN, max_length=250,
-        verbose_name="Bücher erwähnt?"
+        verbose_name="Eine oder mehrere Hauptpersonen?"
     )
     buecher = models.TextField(
         blank=True, null=True,

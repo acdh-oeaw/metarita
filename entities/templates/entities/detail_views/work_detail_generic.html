@@ -4,13 +4,17 @@
 
 
     {% block info-table %}
-    <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover">
         <tr>
             <th>
                 Typ
             </th>
             <td>
-                {{ object.kind }}
+                {% if object.kind.parent_class %}
+                    {{ object.kind.parent_class }} >> {{ object.kind }}
+                {% else %}
+                    {{ object.kind }}
+                {% endif %}
             </td>
         </tr>
         <tr>
@@ -19,26 +23,46 @@
             </th>
             <td>
                 <table class="table table-bordered">
-                    <tr>
-                        <th>
-                            Summe Inventar
-                        </th>
-                        <td>
-                            {% if object.invenatar_summe_norm %}
-                                <abbr title="{{ object.invenatar_summe_norm }}">
-                                    {{ object.summe_inventar}}
-                                </abbr>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            Baarschaft
-                        </th>
-                        <td>
-                            {{ object.barschaft}}
-                        </td>
-                    </tr>
+                    {% if object.barschaft %}
+                        <tr>
+                            <th>
+                                Baarschaft (teilweise eigene Berechnung)
+                            </th>
+                            <td>
+                                {{ object.barschaft}}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if object.vor_passiva_fl %}
+                        <tr>
+                            <th>
+                                vor Abzug Passiva
+                            </th>
+                            <td>
+                                {{ object.vor_passiva_fl }}fl. {{ object.vor_passiva_kr }}kr.
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if object.nach_passiva_fl %}
+                        <tr>
+                            <th>
+                                nach Abzug Passiva
+                            </th>
+                            <td>
+                                {{ object.nach_passiva_fl }}fl. {{ object.nach_passiva_kr }}kr.
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if object.invenatar_summe_norm_fl %}
+                        <tr>
+                            <th>
+                                Summe Inventar
+                            </th>
+                            <td>
+                                {{ object.invenatar_summe_norm_fl }}fl. {{ object.invenatar_summe_norm_kr }}kr.
+                            </td>
+                        </tr>
+                    {% endif %}
                 </table>
             </td>
         </tr>
@@ -50,27 +74,11 @@
                 {{ object.buecher }}
             </td>
         </tr>
-        <tr>
-            <th>
-                Schreibutensilien
-            </th>
-            <td>
-                {{ object.schreib_sachen }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Vollständiges Inventar?
-            </th>
-            <td>
-                {{ object.vollstaendig }}
-            </td>
-        </tr>
 
         {% if object.start_date or object.end_date %}
         <tr>
             <th>
-                Lifespan
+                Bearbeitungsdauer
             </th>
             <td>
                 {% if object.start_date %}
@@ -107,3 +115,43 @@
           {% endif %}
     </table>
     {% endblock info-table %}
+    {% block left-pane-additional %}
+        <legend>
+            Kommentare
+        </legend>
+        <table class="table table-bordered table-hover">
+            {% if object.comment_a %}
+                <tr>
+                    <th>
+                        Anmerkung zu Spalte A
+                    </th>
+                    <td>
+                        {{ object.comment_a }}
+                    </td>
+                </tr>
+            {% endif %}
+            {% if object.comment_b %}
+                <tr>
+                    <th>
+                        Anmerkung zu Spalte B
+                    </th>
+                    <td>
+                        {{ object.comment_b }}
+                    </td>
+                </tr>
+            {% endif %}
+            {% if object.comment_k %}
+                <tr>
+                    <th>
+                        Anmerkung zu Spalte K
+                    </th>
+                    <td>
+                        {{ object.comment_k }}
+                    </td>
+                </tr>
+            {% endif %}
+        </table>
+    {% endblock left-pane-additional %}
+    {% block right-panel-text %}
+        {{ block.super }}
+    {% endblock right-panel-text %}

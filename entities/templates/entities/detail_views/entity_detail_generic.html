@@ -43,106 +43,68 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="panel-body">
-                    <legend>General Info</legend>
+                    <legend>Allgemein</legend>
                     {% block info-table %}
-                    <table class="table table-bordered table-hover">
-                        <tr>
-                            <th>
-                                Titel
-                            </th>
-                            <td>
-                                {{ object.name }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Type
-                            </th>
-                            <td>
-                                {{ object.kind}}
-                            </td>
-                        </tr>
-                        {% if object.start_date or object.end_date %}
-                        <tr>
-                            <th>
-                                Date
-                            </th>
-                            <td>
-                                {% if object.start_date %}
-                                    <abbr title="{{ object.start_date_written }}">{{ object.start_date }}</abbr>
-                                {% endif %}
-                                {% if object.end_date %}
-                                    - <abbr title="{{ object.end_date_written }}">{{ object.end_date }}</abbr>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endif %}
-                    </table>
+                        <table class="table table-bordered table-hover">
+                            <tr>
+                                <th>
+                                    Titel
+                                </th>
+                                <td>
+                                    {{ object.name }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Type
+                                </th>
+                                <td>
+                                    {{ object.kind}}
+                                </td>
+                            </tr>
+                            {% if object.start_date or object.end_date %}
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <td>
+                                    {% if object.start_date %}
+                                        <abbr title="{{ object.start_date_written }}">{{ object.start_date }}</abbr>
+                                    {% endif %}
+                                    {% if object.end_date %}
+                                        - <abbr title="{{ object.end_date_written }}">{{ object.end_date }}</abbr>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </table>
                     {% endblock info-table %}
-                    <legend>Relations</legend>
-                    {% block relations %}
-                    {% for obj in right_panel %}
-                        {% if obj.1.data|length > 0 %}
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title"> {{ obj.0 }}</h4>
-                                </div>
-                                <div class="panel-body">
-                                    <div id="tab_{{ obj.2 }}" class="panel-body">
-                                            {% render_table obj.1 %}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                    {% endblock relations %}
-                    {% block images %}
-                    {% if object.work_depicted_by.all %}
-                        <legend>Images</legend>
-                        {% for x in object.work_depicted_by.all %}
-                            <li>
-                                {{ x }}
-                            </li>
-                        {% endfor %}
-                    {% endif %}
-                    {% endblock images %}
                     {% block left-pane-additional %}
                     {% endblock left-pane-additional %}
                 </div>
             </div>
             <div class="col-md-6">
               {% block right-pane-additional %}
+              {% block relations %}
+                <div class="panel-body">
+                  <legend>Relations</legend>
+                  {% for obj in right_panel %}
+                      {% if obj.1.data|length > 0 %}
+                          <div class="panel panel-default">
+                              <div class="panel-heading">
+                                  <h4 class="panel-title"> {{ obj.0 }}</h4>
+                              </div>
+                              <div class="panel-body">
+                                  <div id="tab_{{ obj.2 }}" class="panel-body">
+                                          {% render_table obj.1 %}
+                                  </div>
+                              </div>
+                          </div>
+                      {% endif %}
+                  {% endfor %}
+                </div>
+              {% endblock relations %}
               {% endblock right-pane-additional %}
-              {% block right-panel-text %}
-                {% if object.text.all %}
-                    <div class="panel-body">
-                        <legend>
-                            Texts
-                        </legend>
-                        {% for x in object.text.all %}
-                        {% if "<text" in x.text %}
-                        <div id="TEI">
-                            hansi
-                        </div>
-                        {% endif %}
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title"> {{ x.kind }}</h4>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="panel-body" {% if "<text" in x.text %}id="sourctei"{% endif %}>
-                                            {{ x.text }}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <div class="panel-body">
-                        <legend>No text provided for this {{entity}}</legend>
-                    </div>
-                {% endif %}
-                {% endblock right-panel-text %}
             </div>
         </div>
     </div>
