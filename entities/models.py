@@ -250,6 +250,11 @@ class Work(TempEntityClass):
         verbose_name="Inventar vollständig?",
         choices=VOLLSTAENDIG, max_length=250,
     )
+    excel_row = models.TextField(
+        blank=True, null=True,
+        verbose_name="Eintrag in Excel",
+        help_text="Kopie des Excel Eintrags"
+    )
 
     def get_absolute_url(self):
         return reverse(

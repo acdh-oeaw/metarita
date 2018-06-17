@@ -155,3 +155,9 @@
     {% block right-panel-text %}
         {{ block.super }}
     {% endblock right-panel-text %}
+    {% block custom_extras %}
+    <div class="container">
+        <h2 style="text-align: center;">original Daten</h2>
+        {{ object.excel_row|safe }}
+    </div>
+    {% endblock %}
