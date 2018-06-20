@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from collections import Counter
 import pandas as pd
+import json
 from datetime import date, timedelta
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -33,6 +34,29 @@ def calculate_duration(row):
     else:
         time = pd.to_timedelta("0 days").__str__()
     return time
+
+
+def get_datatables_data_orig(request):
+
+    """returns basically the original excel sheet data"""
+
+    pd.set_option('display.max_colwidth', -1)
+    works = Work.objects.exclude(kind__name__startswith='Verfach')
+    rows = list(works.values('id', 'excel_row'))
+    lines = [[{'id': x['id']}, json.loads(x['excel_row'])] for x in rows]
+    lines = [dict(x[1], **x[0]) for x in lines]
+    df = pd.DataFrame(lines)
+    df['Signatur'] = df.apply(
+        lambda row: make_href(
+            row, entity='work',
+            id='id',
+            label='Signatur'
+        ), axis=1
+    )
+    payload = {}
+    payload['data'] = df.values.tolist()
+    payload['columns'] = list(df)
+    return JsonResponse(payload)
 
 
 def get_datatables_data(request):
