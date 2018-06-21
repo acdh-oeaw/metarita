@@ -183,14 +183,12 @@ class GenericListViewNew(ExportMixin, SingleTableView):
         context['charttype'] = self.request.GET.get('charttype')
         if context['charttype'] and context['property_name']:
             qs = self.get_queryset()
-            # print(qs)
             chartdata = create_payload(
                 context['entity'],
                 context['property_name'],
                 context['charttype'],
                 qs
             )
-            print(chartdata)
             context = dict(context, **chartdata)
         # context['entity_create_stanbol'] = GenericEntitiesStanbolForm(self.entity)
         return context

@@ -7,3 +7,13 @@ register = template.Library()
 def load_highcharts_js(context):
     values = {}
     return values
+
+
+@register.inclusion_tag('charts/tags/selector_dropdown.html', takes_context=True)
+def selector_dropdown(context):
+    return context
+
+
+@register.inclusion_tag('charts/tags/config_highcharts.html', takes_context=True)
+def config_highcharts(context):
+    return context
