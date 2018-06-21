@@ -1,15 +1,13 @@
 {% extends base_template %}
 {% load staticfiles %}
+{% load charts_extras %}
 {% block title %}
     {{ data.title }}
 {% endblock %}
 
 {% block scriptHeader %}
     <!--highcharts -->
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.highcharts.com/modules/series-label.js"></script>
-        <script src="https://code.highcharts.com/modules/exporting.js"></script>
-        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        {% load_highcharts_js %}
     <!--highcharts END -->
 {% endblock %}
 {% block content %}
@@ -22,9 +20,6 @@
         <div class="panel-heading" style="text-align:center;">
             <h1>{{ data.title }}</h1>
             <legend>{{ data.items }}</legend>
-            <!--<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myFilter" title="click to add filter">
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-            </button>-->
            <button  type="button" class="btn btn-default" data-toggle="collapse" data-target="#howtocite" id="howtocite-btn">JSON data</button>
 
      <div id="howtocite" class="collapse">
