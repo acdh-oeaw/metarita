@@ -14,18 +14,35 @@
 </script>
 
 <div class="panel panel-default panel-fixed">
-<div class="panel-heading"><h2>{% block list_title %}{{entity|title}} list{% endblock %}</h2></div>
+<div class="panel-heading">
+    <h2>{% block list_title %}{{entity|title}} list{% endblock %}</h2>
+    {% if vis_list %}
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+            Visualize <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu">
+                {% for x in vis_list %}
+                    <li>
+                        <a class="dropdown-item" href="/browsing/download/?" title="{{ x.help_text }}">{{ x.label }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
 <div class="panel-body">
     <div class="row">
         <div class="col-md-4">
             <div id="filter-container">
                 {% block create_button %}
-                <div>
-                    <a class="btn btn-primary btn-small" href="/entities/entity/{{entity}}/create">create new {{entity}}</a>
-                </div>
-                <hr/>
-                {% load django_tables2 crispy_forms_tags %}
-                {% crispy entity_create_stanbol  entity_create_stanbol.helper %}
+                    {% if entity_create_stanbol %}
+                        <div>
+                            <a class="btn btn-primary btn-small" href="/entities/entity/{{entity}}/create">create new {{entity}}</a>
+                        </div>
+                        <hr/>
+                        {% load django_tables2 crispy_forms_tags %}
+                        {% crispy entity_create_stanbol  entity_create_stanbol.helper %}
+                    {% endif %}
                 {% endblock %}
             <hr/>
                 {% crispy filter.form filter.form.helper %}

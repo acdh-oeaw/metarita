@@ -48,6 +48,7 @@ from .filters import (
 )
 from relations.forms2 import GenericRelationForm
 
+from charts.models import ChartConfig
 
 import json
 
@@ -156,7 +157,9 @@ class GenericListViewNew(ExportMixin, SingleTableView):
 
     def get_queryset(self, **kwargs):
         self.entity = self.kwargs.get('entity')
-        qs = ContentType.objects.get(app_label='entities', model=self.entity.lower()).model_class().objects.all()
+        qs = ContentType.objects.get(
+            app_label='entities', model=self.entity.lower()
+        ).model_class().objects.all()
         self.filter = get_generic_list_filter(self.entity.title())(self.request.GET, queryset=qs)
         self.filter.form.helper = self.formhelper_class()
         return self.filter.qs
@@ -174,9 +177,9 @@ class GenericListViewNew(ExportMixin, SingleTableView):
         context = super(GenericListViewNew, self).get_context_data()
         context[self.context_filter_name] = self.filter
         context['entity'] = self.entity
-        context['entity_create_stanbol'] = GenericEntitiesStanbolForm(self.entity)
+        context['vis_list'] = ChartConfig.objects.filter(model_name=self.entity)
+        # context['entity_create_stanbol'] = GenericEntitiesStanbolForm(self.entity)
         return context
-
 
 
 ############################################################################

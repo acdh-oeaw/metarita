@@ -124,7 +124,6 @@ def get_generic_list_filter(entity):
                             }),
                             attrs=attrs)
 
-
     return GenericListFilter
 
 
